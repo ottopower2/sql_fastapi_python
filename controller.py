@@ -88,4 +88,7 @@ class CustomerController:
 
     def delete_customer(self, customer_id):
         return self.customer_service.delete_customer(customer_id)
+
+    def update_customer(self, customer_id, new_customer_id):
+        return self.customer_service.update_customer(customer_id, new_customer_id)
     

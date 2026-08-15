@@ -65,3 +65,14 @@ def delete_customer(customer_id: str):
         raise HTTPException(status_code=404, detail=str(error)) from error
     finally:
         conn.close()
+
+@router.put("/update-customer/{customer_id}")
+def update_customer(customer_id: str, new_customer_id: str):
+    conn, customer_controller = get_customer_controller()
+    try:
+        result = customer_controller.update_customer(customer_id, new_customer_id)
+        return result
+    except ValueError as error:
+        raise HTTPException(status_code=404, detail=str(error)) from error
+    finally:
+        conn.close()

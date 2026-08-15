@@ -7,7 +7,24 @@ class CustomerService:
         self.conn = conn
 
 
+    # Update customer from customer_id)
+    def update_customer(self, customer_id, new_customer_id):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT * FROM customers WHERE customer_id = ?", (customer_id,))
+        row = cursor.fetchone()
+        if not row:
+            raise ValueError(f"Customer with ID {customer_id} was not found.")
+        cursor.execute(
+            "UPDATE customers SET customer_id = ? WHERE customer_id = ?",
+            (new_customer_id, customer_id),
+        )
+        self.conn.commit()
+        return {"message": f"Customer with ID {customer_id} updated successfully.", "customer": {"customer_id": new_customer_id}}
 
+
+
+
+    
     def delete_customer(self, customer_id):
         cursor = self.conn.cursor()
         cursor.execute("DELETE FROM customers WHERE customer_id = ?", (customer_id,))

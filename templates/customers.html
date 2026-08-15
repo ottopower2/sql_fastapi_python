@@ -83,7 +83,17 @@
     <p id="delete-customer-result"></p>
     <script src="/static/js/delete_customer.js"></script>
 
-    <script src="/static/js/customers_where_sity.js"></script>
+    <!-- update customer ID update_customer(self, customer_id, new_customer_id): -->
+    <label for="update_customer_id">Customer ID to Update:</label>
+    <input id="update_customer_id" name="update_customer_id" type="text" />
+    <label for="new_customer_id">New Customer ID:</label>
+    <input id="new_customer_id" name="new_customer_id" type="text" />
+    <button onclick="updateCustomerid()">Update Customer</button>
+    <p id="update-customer-result"></p>
+
+    <script src="/static/js/update_customer.js"></script>
+
+    <script src="/static/js/customers_where_city.js"></script>
     <script src="/static/js/customer_order_form.js"></script>
   </body>
 </html>
