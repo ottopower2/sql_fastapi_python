@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer Orders</title>
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/payments-page">Payments</a>
+      <a href="/customer-pages">Customers</a>
+    </nav>
+
+    <h1>Customer Orders</h1>
+    <p>alle OrdersIDs From API endpoint.</p>
+    <button onclick="loadCustomerIds()">Load Customer IDs</button>
+
+    <ul id="customer-list"></ul>
+
+    <p>alle Order IDs From API endpoint based on state and status.</p>
+
+    <label for="state-select">Choose a state:</label>
+    <select id="state-select">
+      <option value="">Choose a state</option>
+    </select>
+    <label for="status-select">Choose a status:</label>
+    <select id="status-select">
+      <option value="">Choose a status</option>
+    </select>
+
+    <button onclick="loadOrderIdsWithStatus()">Load Order IDs</button>
+    <ul id="order-list"></ul>
+
+    <!-- # get products with price above a certain value -->
+    <p>Get products with price above a certain value.</p>
+    <button onclick="Order_item_with_price()">
+      Load Products with Price Above
+    </button>
+    <ul id="products-list"></ul>
+
+    <!-- order_count_by_state -->
+    <p>Order count by state.</p>
+    <button onclick="loadOrderCountByState()">Load Order Count by State</button>
+    <ul id="order-count-list"></ul>
+
+    <!-- // choose a statuse from dropdown and load order ids and..... -->
+
+    <label for="status2-select">Choose a status:</label>
+    <select id="status2-select">
+      <option value="">Choose a status</option>
+    </select>
+    <button onclick="loadOrderIdsWithStatus2()">Load Order IDs</button>
+    <ul id="order-list-2"></ul>
+
+    <script>
+      // load status
+
+      // load order ids with status
+      function loadOrderIdsWithStatus2() {
+        const status = document.getElementById('status2-select').value;
+        const list = document.getElementById('order-list-2');
+
+        if (status === '') {
+          list.innerHTML = '<li>Please select a status first.</li>';
+          return;
+        }
+
+        fetch('/order-ids-by-status?status=' + status)
+          .then((response) => response.json())
+          .then((data) => {
+            list.innerHTML = '';
+
+            data.order_ids_by_status.forEach((order) => {
+              const li = document.createElement('li');
+              li.textContent =
+                'Customer ID: ' +
+                order.customer_id +
+                ', Order ID: ' +
+                order.order_id +
+                ', Status: ' +
+                order.order_status;
+              list.appendChild(li);
+            });
+          });
+      }
+
+      // Load order statuses on page load
+      document.addEventListener('DOMContentLoaded', () => {
+        loadCustomerCities();
+        loadOrderStatusesA();
+        document
+          .getElementById('city-select')
+          .addEventListener('change', loadCustomerIdsWhereCity);
+      });
+
+      // Load customer cities on page load where id= city-select and add event listener
+      function loadCustomerCities() {
+        fetch('/customer-cities') // habe keine customer-cities in api endpoint, daher habe ich es in service.py und controller.py hinzugefügt
+          .then((response) => response.json())
+          .then((data) => {
+            const select = document.getElementById('city-select');
+            select.innerHTML = '<option value="">Choose a city</option>';
+            data.customer_cities.forEach((city) => {
+              const option = document.createElement('option');
+              option.value = city;
+              option.textContent = city;
+              select.appendChild(option);
+            });
+          });
+      }
+
+      // Load customer IDs on page load where id= customer-list
+      function loadCustomerIds() {
+        fetch('/customer-ids')
+          .then((response) => response.json())
+          .then((data) => {
+            const list = document.getElementById('customer-list');
+            list.innerHTML = '';
+
+            data.customer_ids.forEach((id) => {
+              const li = document.createElement('li');
+              li.textContent = 'Customer ID: ' + id;
+              list.appendChild(li);
+            });
+          });
+      }
+
+      //  #####
+      function loadOrderCountByState() {
+        fetch('/order_count_by_state')
+          .then((response) => response.json())
+          .then((data) => {
+            const list = document.getElementById('order-count-list');
+            list.innerHTML = '';
+
+            data.order_count_by_state.forEach((item) => {
+              const li = document.createElement('li');
+              li.textContent =
+                'State: ' +
+                item.customer_state +
+                ', Order Count: ' +
+                item.order_count;
+              list.appendChild(li);
+            });
+          });
+      }
+      function Order_item_with_price() {
+        fetch('/order-item-with-price')
+          .then((response) => response.json())
+          .then((data) => {
+            const list = document.getElementById('products-list');
+            list.innerHTML = '';
+
+            data.order_item_with_price.forEach((item) => {
+              const li = document.createElement('li');
+              li.textContent =
+                'Order Item ID: ' + item.order_id + ', Price: ' + item.price;
+              list.appendChild(li);
+            });
+          });
+      }
+
+      function loadCustomerIds() {
+        fetch('/customer-ids')
+          .then((response) => response.json())
+          .then((data) => {
+            const list = document.getElementById('customer-list');
+            list.innerHTML = '';
+
+            data.customer_ids.forEach((customerId) => {
+              const li = document.createElement('li');
+              li.textContent = customerId;
+              list.appendChild(li);
+            });
+          });
+      }
+
+      function loadCustomerStates() {
+        fetch('/customer-states')
+          .then((response) => response.json())
+          .then((data) => {
+            const select = document.getElementById('state-select');
+            select.innerHTML = '<option value="">Choose a state</option>';
+
+            data.customer_states.forEach((state) => {
+              const option = document.createElement('option');
+              option.value = state;
+              option.textContent = state;
+              select.appendChild(option);
+            });
+          });
+      }
+
+      function loadOrderStatuses() {
+        fetch('/order-statuses')
+          .then((response) => response.json())
+          .then((data) => {
+            const select = document.getElementById('status-select');
+            select.innerHTML = '<option value="">Choose a status</option>';
+
+            data.order_statuses.forEach((status) => {
+              const option = document.createElement('option');
+              option.value = status;
+              option.textContent = status;
+              select.appendChild(option);
+            });
+          });
+      }
+
+      function loadOrderIdsWithStatus() {
+        let state = document.getElementById('state-select').value;
+        let status = document.getElementById('status-select').value;
+        let list = document.getElementById('order-list');
+
+        if (state === '') {
+          list.innerHTML = '<li>Please select a state first.</li>';
+          return;
+        }
+
+        if (status === '') {
+          list.innerHTML = '<li>Please select a status first.</li>';
+          return;
+        }
+
+        fetch(
+          '/customer-orders_and_status?state=' + state + '&status=' + status,
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            list.innerHTML = '';
+
+            for (let i = 0; i < data.customer_orders.length; i++) {
+              let order = data.customer_orders[i];
+              let li = document.createElement('li');
+
+              li.textContent =
+                'Customer ID: ' +
+                order.customer_id +
+                ', State: ' +
+                order.customer_state +
+                ', Order ID: ' +
+                order.order_id +
+                ', Status: ' +
+                order.order_status;
+
+              list.appendChild(li);
+            }
+
+            if (data.customer_orders.length === 0) {
+              list.innerHTML = '<li>No orders found.</li>';
+            }
+          });
+      }
+
+      window.onload = function () {
+        loadCustomerStates();
+        loadOrderStatusesA();
+        loadCustomerCities();
+
+        document.getElementById('order-list').innerHTML =
+          '<li>Choose state and status, then load orders.</li>';
+      };
+    </script>
+  </body>
+</html>

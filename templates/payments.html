@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Payments</title>
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/payments-page">Payments</a>
+    </nav>
+
+    <h1>Payments Page</h1>
+
+    <label for="min_payment_value">Min Payment Value:</label>
+    <input type="number" id="min_payment_value" />
+
+    <label for="max_payment_value">Max Payment Value:</label>
+    <input type="number" id="max_payment_value" />
+
+    <button onclick="loadPayments()">Load Payments</button>
+
+    <ul id="payments-list"></ul>
+
+    <div id="payment-stats">
+      <button onclick="loadPaymentStats()">
+        Load Min Max Avg Payment Value
+      </button>
+      <p>Min Payment Value: <span id="min-payment-value"></span></p>
+      <p>Max Payment Value: <span id="max-payment-value"></span></p>
+      <p>Average Payment Value: <span id="avg-payment-value"></span></p>
+    </div>
+    <script src="/static/js/payments.js"></script>
+  </body>
+</html>

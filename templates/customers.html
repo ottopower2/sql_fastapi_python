@@ -1,0 +1,89 @@
+<!-- # html for customers.html -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customers</title>
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/payments-page">Payments</a>
+      <a href="/customer-pages">Customers</a>
+    </nav>
+
+    <h1>Customers</h1>
+
+    <!-- # get customer ids where city -->
+    <label for="city-select">Choose a city:</label>
+    <select id="city-select">
+      <option value="">Choose a city</option>
+    </select>
+    <button onclick="loadCustomerIdsWhereCity()">
+      Load Customer IDs by City
+    </button>
+    <ul id="customer-ids-by-city-list"></ul>
+
+    <h2>Create Customer Order</h2>
+    <form id="customer-order-form">
+      <label for="customer_id">Customer ID:</label>
+      <input id="customer_id" name="customer_id" required />
+
+      <label for="customer_unique_id">Customer Unique ID:</label>
+      <input id="customer_unique_id" name="customer_unique_id" />
+
+      <label for="customer_zip_code_prefix">ZIP Code:</label>
+      <input
+        id="customer_zip_code_prefix"
+        name="customer_zip_code_prefix"
+        type="number"
+      />
+
+      <label for="customer_city">City:</label>
+      <input id="customer_city" name="customer_city" required />
+
+      <label for="customer_state">State:</label>
+      <input id="customer_state" name="customer_state" required />
+
+      <label for="order_id">Order ID:</label>
+      <input id="order_id" name="order_id" required />
+
+      <label for="order_status">Order Status:</label>
+      <input
+        id="order_status"
+        name="order_status"
+        value="processing"
+        required
+      />
+
+      <label for="order_purchase_timestamp">Purchase Timestamp:</label>
+      <input
+        id="order_purchase_timestamp"
+        name="order_purchase_timestamp"
+        placeholder="2026-08-14 16:30:00"
+      />
+
+      <label for="order_estimated_delivery_date">Estimated Delivery:</label>
+      <input
+        id="order_estimated_delivery_date"
+        name="order_estimated_delivery_date"
+        placeholder="2026-08-20 18:00:00"
+      />
+
+      <button type="submit">Save Customer Order</button>
+    </form>
+
+    <p id="customer-order-result"></p>
+
+    <!-- delete customer id -->
+    <label for="delete_customer_id">Customer ID to Delete:</label>
+    <input id="delete_customer_id" name="delete_customer_id" type="text" />
+    <button onclick="deleteCustomer()">Delete Customer</button>
+    <p id="delete-customer-result"></p>
+    <script src="/static/js/delete_customer.js"></script>
+
+    <script src="/static/js/customers_where_sity.js"></script>
+    <script src="/static/js/customer_order_form.js"></script>
+  </body>
+</html>
