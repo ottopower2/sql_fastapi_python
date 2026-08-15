@@ -8,3 +8,4 @@ venv/
 env/
 
 olist.sqlite
+GIT_NOTES.md
