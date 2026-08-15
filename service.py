@@ -10,18 +10,14 @@ class CustomerService:
     # Update customer from customer_id)
     def update_customer(self, customer_id, new_customer_id):
         cursor = self.conn.cursor()
-        cursor.execute("SELECT * FROM customers WHERE customer_id = ?", (customer_id,))
-        row = cursor.fetchone()
-        if not row:
-            raise ValueError(f"Customer with ID {customer_id} was not found.")
         cursor.execute(
             "UPDATE customers SET customer_id = ? WHERE customer_id = ?",
             (new_customer_id, customer_id),
         )
+        if cursor.rowcount == 0:
+            raise ValueError(f"Customer with ID {customer_id} was not found.")
         self.conn.commit()
-        return {"message": f"Customer with ID {customer_id} updated successfully.", "customer": {"customer_id": new_customer_id}}
-
-
+        return {"message": f"Customer ID updated from {customer_id} to {new_customer_id}."}
 
 
     
