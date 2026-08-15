@@ -1,53 +1,99 @@
+# FastAPI E-Commerce SQL
 
-**Review**
+Backend learning project built with FastAPI and SQLite.
 
-1. `CustomerController` bringt im Moment kaum eigene Logik und ist fast nur ein Durchreicher. In [controller.py (line 5)](/abs/path/C:/Users/Amo/Desktop/sql_e_commerce_python/controller.py:5) bis [controller.py (line 24)](/abs/path/C:/Users/Amo/Desktop/sql_e_commerce_python/controller.py:24) ruft jede Methode einfach nur `service` auf. Das ist für Lernen okay, aber architektonisch ist die Schicht gerade noch nicht wirklich nützlich. Als nächster Schritt sollte der Controller entweder kleine Anwendungslogik übernehmen oder vorerst weggelassen werden, damit die Struktur klarer bleibt.
-2. In [main.py (line 16)](/abs/path/C:/Users/Amo/Desktop/sql_e_commerce_python/main.py:16) bis [main.py (line 70)](/abs/path/C:/Users/Amo/Desktop/sql_e_commerce_python/main.py:70) steckt sehr viel Ausgabe- und Demo-Code direkt in einer Funktion. Für erste Übungen ist das normal, aber mit mehr Queries wird `main()` schnell unübersichtlich. Als nächstes solltest du die Ausgabe in kleine Funktionen trennen, zum Beispiel `print_customers`, `print_customer_ids`, `print_order_items`.
-3. Du mischst unterschiedliche Rückgabeformen im Service: einmal `Customer`-Objekte in [service.py (line 7)](/abs/path/C:/Users/Amo/Desktop/sql_e_commerce_python/service.py:7), dann Listen von Strings in [service.py (line 20)](/abs/path/C:/Users/Amo/Desktop/sql_e_commerce_python/service.py:20), dann Dictionaries in [service.py (line 35)](/abs/path/C:/Users/Amo/Desktop/sql_e_commerce_python/service.py:35), [service.py (line 62)](/abs/path/C:/Users/Amo/Desktop/sql_e_commerce_python/service.py:62), [service.py (line 92)](/abs/path/C:/Users/Amo/Desktop/sql_e_commerce_python/service.py:92), [service.py (line 119)](/abs/path/C:/Users/Amo/Desktop/sql_e_commerce_python/service.py:119). Das funktioniert, aber macht den Code schwerer vorhersehbar. Ein guter nächster Lernschritt wäre: pro Datenart ein konsistentes Format wählen.
-4. Die Methodennamen sind noch nicht ganz sauber. `get_customer` in [service.py (line 7)](/abs/path/C:/Users/Amo/Desktop/sql_e_commerce_python/service.py:7) liefert mehrere Kunden, heißt aber im Singular. Das Gleiche gilt später für ähnliche Methoden. Bessere Namen wären `get_customers`, `get_customer_ids`, `get_customer_orders`. Das ist kein kleiner Stilpunkt, sondern wichtig für Lesbarkeit.
-5. In [main.py (line 34)](/abs/path/C:/Users/Amo/Desktop/sql_e_commerce_python/main.py:34) bis [main.py (line 44)](/abs/path/C:/Users/Amo/Desktop/sql_e_commerce_python/main.py:44) und [main.py (line 53)](/abs/path/C:/Users/Amo/Desktop/sql_e_commerce_python/main.py:53) bis [main.py (line 61)](/abs/path/C:/Users/Amo/Desktop/sql_e_commerce_python/main.py:61) liegt auskommentierter Alt-Code. Für Lernprojekte sammelt sich das schnell an, macht die Datei aber schwer lesbar. Besser: löschen oder in Git behalten statt in der Datei.
-6. Klein, aber wichtig: In [service.py (line 130)](/abs/path/C:/Users/Amo/Desktop/sql_e_commerce_python/service.py:130) und [service.py (line 149)](/abs/path/C:/Users/Amo/Desktop/sql_e_commerce_python/service.py:149) steht `product_name_lenght`. Das kommt vermutlich aus der DB-Spalte, aber wenn du eigene Namen vergibst, solltest du konsequent `length` schreiben. Solche Details werden später wichtig.
+## Overview
 
-**Wo du gerade stehst**
+This project demonstrates a small e-commerce backend with REST API endpoints for customers, orders, and payments. It also includes simple HTML pages for testing data in the browser.
 
-Du bist aus meiner Sicht auf einem guten Anfänger- bis frühen Junior-Niveau für:
+## Features
 
-* Python-Grundlagen
-* Schleifen
-* Listen und Dictionaries
-* SQLite-Abfragen
-* einfache `JOIN`s
-* Trennung in `main`, `service`, `controller`
+- Read customer, order, and payment data from SQLite
+- Filter customers by city
+- Filter orders by status and customer state
+- Show payment statistics
+- Create a new customer together with a new order
+- Delete a customer by `customer_id`
+- Test pages built with Jinja2 and JavaScript
 
-Das ist mehr als “nur Syntax lernen”. Du beginnst schon, Datenfluss und Struktur zu verstehen. Das ist ein wichtiger Schritt.
+## Tech Stack
 
-Was dir noch fehlt für die nächste Stufe:
+- Python
+- FastAPI
+- SQLite
+- Jinja2
+- JavaScript
 
-* saubere Benennung
-* einheitliche Rückgabetypen
-* kleinere Funktionen
-* etwas mehr Architekturverständnis: Was gehört in `main`, was in `service`, was in `controller`, was ins `model`
+## Project Structure
 
-**Lernpfad**
+```text
+app.py
+controller.py
+dependencies.py
+model.py
+service.py
+routes/
+templates/
+static/
+```
 
-Wenn ich deine Roadmap sinnvoll weiterbauen würde, dann so:
+## Run Locally
 
-1. Erst Codequalität festigen.
-   Übe saubere Namen, kleine Funktionen, weniger Copy-Paste, konsistente Rückgaben.
-2. Dann Datenmodellierung verbessern.
-   Nicht nur `Customer`, sondern auch `Order` oder `OrderItem` als Klassen oder `dataclass` bauen.
-3. Danach Parameterisierte Queries lernen.
-   Zum Beispiel:
-   * Kunde per ID
-   * Orders nach Status
-   * Orders eines bestimmten Customers
-   * `LIMIT` als Parameter
-4. Dann Fehlerbehandlung einbauen.
-   Was passiert bei leerem Resultat, falscher ID, DB-Fehler?
-5. Danach kleine CLI-Struktur.
-   Ein Menü wie:
-   * `1` Kunden anzeigen
-   * `2` Customer IDs anzeigen
-   * `3` Undelivered Orders anzeigen
-6. Danach Tests lernen.
-   Gerade für `service.py` wäre das dein nächster großer Qualitätssprung.
+1. Create and activate a virtual environment.
+2. Install the dependencies you use for FastAPI.
+3. Start the app:
+
+```bash
+uvicorn app:app --reload
+```
+
+4. Open in the browser:
+
+- `http://127.0.0.1:8000/`
+- `http://127.0.0.1:8000/customer-pages`
+- `http://127.0.0.1:8000/payments-page`
+- `http://127.0.0.1:8000/docs`
+
+## Example API Endpoints
+
+- `GET /customer-ids`
+- `GET /customer-cities`
+- `GET /customer-orders_and_status`
+- `GET /order-statuses`
+- `GET /order-ids-by-status`
+- `GET /payments`
+- `POST /customer-orders`
+- `DELETE /delete-customer/{customer_id}`
+
+## Example POST Request
+
+```json
+{
+  "customer_id": "cust_1002",
+  "customer_unique_id": "unique_1002",
+  "customer_zip_code_prefix": 10115,
+  "customer_city": "Berlin",
+  "customer_state": "BE",
+  "order_id": "order_1002",
+  "order_status": "processing",
+  "order_purchase_timestamp": "2026-08-15 17:00:00",
+  "order_estimated_delivery_date": "2026-08-20 18:00:00"
+}
+```
+
+## Learning Goal
+
+This project was built to practice:
+
+- REST API development with FastAPI
+- SQL queries and joins
+- CRUD operations
+- separating code into routes, controller, service, and model layers
+
+## Next Improvements
+
+- Add automated tests
+- Improve validation and error handling
+- Clean up route naming
+- Add update endpoints
+- Improve frontend styling for the test pages
