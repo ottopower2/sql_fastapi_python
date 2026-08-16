@@ -513,4 +513,26 @@ class CustomerService:
         total_revenue = row[0]
         return total_revenue
 
-   
+   # get product id items and products name and review score
+    def get_product_id_items_and_products_name_and_review_score(self):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT 
+                order_items.product_id,
+                products.product_name_lenght,
+                order_reviews.review_score
+            FROM order_items
+            JOIN products ON order_items.product_id = products.product_id
+            JOIN order_reviews ON order_items.order_id = order_reviews.order_id
+            LIMIT 15
+        """)
+        rows = cursor.fetchall()
+        product_details = []
+        for row in rows:
+            product_detail = {
+                "product_id": row[0],
+                "product_name_lenght": row[1],
+                "product_review_score": row[2]
+            }
+            product_details.append(product_detail)
+        return product_details

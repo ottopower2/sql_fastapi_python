@@ -23,7 +23,37 @@
     <ul id="total-ordered-items-list"></ul>
     <p>Total Ordered Items: <span id="total-ordered-items-count"></span></p>
 
+    <!-- get product_id items and products name and review score -->
+    <button onclick="loadProductDetails()">Load Product Details</button>
+    <ul id="product-details-list"></ul>
+
     <script>
+      async function loadProductDetails() {
+        try {
+          const response = await fetch(
+            '/product_id-items-and-products-name-and-review-score',
+          );
+          if (!response.ok) {
+            throw new Error(`Request failed with status ${response.status}`);
+          }
+          const data = await response.json();
+
+          const productDetailsList = document.getElementById(
+            'product-details-list',
+          );
+          productDetailsList.innerHTML = '';
+          data.product_details.forEach((product) => {
+            const li = document.createElement('li');
+            li.textContent = `Product ID: ${product.product_id}, Name Length: ${product.product_name_lenght}, Review Score: ${product.product_review_score}`;
+            productDetailsList.appendChild(li);
+          });
+        } catch (error) {
+          document.getElementById('product-details-list').innerHTML =
+            '<li>Could not load product details.</li>';
+          console.error('Error fetching product details:', error);
+        }
+      }
+
       async function loadTotalOrderedItemsByStatus() {
         const statusSelect = document.getElementById(
           'loadOrderedItemStatusSelect',

@@ -64,3 +64,13 @@ def get_total_ordered_items_by_status(status: str):
         return {"total_ordered_items": total_ordered_items}
     finally:
         conn.close()
+
+
+@router.get("/product_id-items-and-products-name-and-review-score")
+def get_product_id_items_and_products_name_and_review_score():
+    conn, customer_controller = get_customer_controller()
+    try:
+        product_details = customer_controller.get_product_id_items_and_products_name_and_review_score()
+        return {"product_details": product_details}
+    finally:
+        conn.close()

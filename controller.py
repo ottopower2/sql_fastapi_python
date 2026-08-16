@@ -104,3 +104,7 @@ class CustomerController:
 
     def get_total_revenue_by_seller(self, seller_id):
         return self.customer_service.get_total_revenue_by_seller(seller_id)
+
+
+    def get_product_id_items_and_products_name_and_review_score(self):
+        return self.customer_service.get_product_id_items_and_products_name_and_review_score()
