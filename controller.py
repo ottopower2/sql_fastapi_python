@@ -8,6 +8,9 @@ class CustomerController:
     def get_customer_ids(self):
         return self.customer_service.get_customer_ids()
 
+    def get_total_customers(self):
+        return self.customer_service.get_total_customers()
+
     def get_customer_states(self):
         return self.customer_service.get_customer_states()
 

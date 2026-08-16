@@ -27,6 +27,16 @@ def get_customer_ids():
         conn.close()
 
 
+@router.get("/customers-total")
+def get_total_customers():
+    conn, customer_controller = get_customer_controller()
+    try:
+        total_customers = customer_controller.get_total_customers()
+        return {"total_customers": total_customers}
+    finally:
+        conn.close()
+
+
 @router.get("/customer-states")
 def get_customer_states():
     conn, customer_controller = get_customer_controller()

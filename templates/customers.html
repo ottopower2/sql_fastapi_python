@@ -15,6 +15,11 @@
 
     <h1>Customers</h1>
 
+    <button type="button" onclick="loadTotalCustomers()">
+      Show Total Customers
+    </button>
+    <p id="total-customers-result"></p>
+
     <!-- # get customer ids where city -->
     <label for="city-select">Choose a city:</label>
     <select id="city-select">
@@ -92,6 +97,7 @@
     <p id="update-customer-result"></p>
 
     <script src="/static/js/update_customer.js"></script>
+    <script src="/static/js/total_customers.js"></script>
 
     <script src="/static/js/customers_where_city.js"></script>
     <script src="/static/js/customer_order_form.js"></script>

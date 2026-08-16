@@ -157,6 +157,12 @@ class CustomerService:
             customer_ids.append(customer_id)
         return customer_ids
 
+    def get_total_customers(self):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM customers")
+        total_customers = cursor.fetchone()[0]
+        return total_customers
+
     def get_customer_states(self):
         cursor = self.conn.cursor()
         cursor.execute("""
