@@ -94,3 +94,7 @@ class CustomerController:
 
     def update_customer(self, customer_id, new_customer_id):
         return self.customer_service.update_customer(customer_id, new_customer_id)
+
+
+    def get_total_ordered_items_by_status(self, status):
+        return self.customer_service.get_total_ordered_items_by_status(status)
