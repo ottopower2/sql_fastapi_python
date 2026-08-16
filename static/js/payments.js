@@ -54,3 +54,89 @@ function loadPaymentStats() {
         data.payment_stats.avg_payment.toFixed(2);
     });
 }
+
+function loadCities() {
+  fetch('/selectcity')
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      const citySelect = document.getElementById('city-select');
+      const cities = data.customer_cities || data.cities || [];
+      citySelect.innerHTML = '<option value="">Choose a city</option>';
+      cities.forEach((city) => {
+        const option = document.createElement('option');
+        option.value = city;
+        option.textContent = city;
+        citySelect.appendChild(option);
+      });
+    })
+    .catch((error) => {
+      console.error('Error loading cities:', error);
+    });
+}
+
+function loadTotalPaymentsByCity() {
+  const city = document.getElementById('city-select').value;
+  const resultElement = document.getElementById('total-payments-by-city');
+
+  if (!city) {
+    resultElement.textContent = 'Please choose a city first.';
+    return;
+  }
+
+  fetch(`/total_payments_by_city?city=${encodeURIComponent(city)}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (data.total_payments === null) {
+        resultElement.textContent = 'No payments found for this city.';
+        return;
+      }
+
+      resultElement.textContent = Number(data.total_payments).toFixed(2);
+    })
+    .catch((error) => {
+      resultElement.textContent = 'Could not load total payments.';
+      console.error('Error loading total payments by city:', error);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', loadCities);
+
+function loadTotalRevenueBySeller() {
+  const sellerId = document.getElementById('seller-id-input').value;
+  const resultElement = document.getElementById('total-revenue-by-seller');
+
+  if (!sellerId) {
+    resultElement.textContent = 'Please enter a seller ID first.';
+    return;
+  }
+
+  fetch(`/total_revenue_by_seller?seller_id=${encodeURIComponent(sellerId)}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (data.total_revenue === null) {
+        resultElement.textContent = 'No revenue found for this seller.';
+        return;
+      }
+
+      resultElement.textContent = Number(data.total_revenue).toFixed(2);
+    })
+    .catch((error) => {
+      resultElement.textContent = 'Could not load total revenue.';
+      console.error('Error loading total revenue by seller:', error);
+    });
+}

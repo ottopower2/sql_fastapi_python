@@ -157,6 +157,12 @@ class CustomerService:
             customer_ids.append(customer_id)
         return customer_ids
 
+    def get_total_customers(self):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM customers")
+        total_customers = cursor.fetchone()[0]
+        return total_customers
+
     def get_customer_states(self):
         cursor = self.conn.cursor()
         cursor.execute("""
@@ -465,3 +471,46 @@ class CustomerService:
             "avg_payment": row[2]
         }
         return payment_stats
+
+
+
+    def get_total_ordered_items_by_status(self, status):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT COUNT(order_items.order_item_id) AS total_ordered_items
+            FROM order_items
+            JOIN orders ON order_items.order_id = orders.order_id
+            WHERE orders.order_status = ?
+        """, (status,))
+        row = cursor.fetchone()
+        total_ordered_items = row[0]
+        return total_ordered_items
+
+
+    def get_total_payments_by_cities(self, ciity: str):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT SUM(order_payments.payment_value) AS total_payments
+            FROM order_payments
+            JOIN orders ON order_payments.order_id = orders.order_id
+            JOIN customers ON orders.customer_id = customers.customer_id
+            WHERE customers.customer_city = ?
+        """, (ciity,))
+        row = cursor.fetchone()
+        total_payments = row[0]
+        return total_payments
+
+
+
+    def get_total_revenue_by_seller(self, seller_id: str):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT SUM(order_items.price) AS total_revenue
+            FROM order_items
+            WHERE order_items.seller_id = ?
+        """, (seller_id,))
+        row = cursor.fetchone()
+        total_revenue = row[0]
+        return total_revenue
+
+   

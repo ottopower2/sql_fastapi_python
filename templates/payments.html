@@ -29,7 +29,25 @@
       <p>Min Payment Value: <span id="min-payment-value"></span></p>
       <p>Max Payment Value: <span id="max-payment-value"></span></p>
       <p>Average Payment Value: <span id="avg-payment-value"></span></p>
+
+      <!-- total payments by city -->
+      <label for="city-select">Choose a city:</label>
+      <select id="city-select">
+        <option value="">Choose a city</option>
+      </select>
+      <button onclick="loadTotalPaymentsByCity()">
+        Load Total Payments by City
+      </button>
+      <p>Total Payments by City: <span id="total-payments-by-city"></span></p>
+
+      <!-- revenue by SellerId -->
+      <label for="seller-id-input">Seller ID:</label>
+      <input type="text" id="seller-id-input" />
+      <button onclick="loadTotalRevenueBySeller()">
+        Load Total Revenue by Seller
+      </button>
+      <p>Total Revenue by Seller: <span id="total-revenue-by-seller"></span></p>
     </div>
-    <script src="/static/js/payments.js"></script>
+    <script src="/static/js/payments.js?v=2"></script>
   </body>
 </html>

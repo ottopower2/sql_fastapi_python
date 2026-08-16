@@ -79,6 +79,9 @@ class CustomerController:
     def get_order_ids_by_status(self, status):
         return self.customer_service.get_order_ids_by_status(status)
 
+    def get_total_ordered_items_by_status(self, status):
+        return self.customer_service.get_total_ordered_items_by_status(status)
+
 
     def get_payment_stats(self):
         return self.customer_service.get_payment_stats()
@@ -91,3 +94,13 @@ class CustomerController:
 
     def update_customer(self, customer_id, new_customer_id):
         return self.customer_service.update_customer(customer_id, new_customer_id)
+
+    def get_total_payments_by_city(self, city):
+        return self.customer_service.get_total_payments_by_cities(city)
+
+
+
+    
+
+    def get_total_revenue_by_seller(self, seller_id):
+        return self.customer_service.get_total_revenue_by_seller(seller_id)
